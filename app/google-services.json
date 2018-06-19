@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "936656981245",
+    "firebase_url": "https://d-kenney-main-menu.firebaseio.com",
+    "project_id": "d-kenney-main-menu",
+    "storage_bucket": "d-kenney-main-menu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936656981245:android:a993453177bb1691",
+        "android_client_info": {
+          "package_name": "com.example.hendratay.kenneymainmenu2d"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "936656981245-f0272p0lgj227edc0fpolr5e7q0sjq87.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hendratay.kenneymainmenu2d",
+            "certificate_hash": "8416acbd84ace7f9964d5d9c83bb68af895a66c5"
+          }
+        },
+        {
+          "client_id": "936656981245-edb02ap0i3nn5vivstkb6m8g0lngv3uf.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "936656981245-edb02ap0i3nn5vivstkb6m8g0lngv3uf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsG938vZF_gE7MYIkPBsvOapLsZbP7XYs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936656981245-edb02ap0i3nn5vivstkb6m8g0lngv3uf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
