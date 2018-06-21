@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupMultiplayerButton()
+        setupOptionsButton()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -44,6 +45,12 @@ class MainActivity : AppCompatActivity() {
                             .build(),
                     RC_SIGN_IN
             )
+        }
+    }
+
+    private fun setupOptionsButton() {
+        options.setOnClickListener {
+            startActivity(Intent(this, OptionsActivity::class.java))
         }
     }
 
