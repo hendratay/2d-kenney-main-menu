@@ -32,6 +32,8 @@
         <activity android:name=".OptionsActivity">
         </activity>
 
+        <service android:name=".BackgroundMusic"></service>
+
     </application>
 
 </manifest>

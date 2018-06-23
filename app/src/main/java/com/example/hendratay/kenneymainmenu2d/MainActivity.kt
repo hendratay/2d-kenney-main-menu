@@ -1,12 +1,17 @@
 package com.example.hendratay.kenneymainmenu2d
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseAcitivty() {
 
     companion object {
         val RC_SIGN_IN: Int = 123
@@ -26,10 +31,6 @@ class MainActivity : AppCompatActivity() {
 
         setupMultiplayerButton()
         setupOptionsButton()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun setupMultiplayerButton() {
