@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.firebase.ui.auth.AuthUI
@@ -51,7 +52,7 @@ class MainActivity : BaseAcitivty() {
 
     private fun setupOptionsButton() {
         options.setOnClickListener {
-            startActivity(Intent(this, OptionsActivity::class.java))
+            OptionsDialog().show(supportFragmentManager, "OptionsDialog")
         }
     }
 

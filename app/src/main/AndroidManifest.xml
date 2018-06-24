@@ -29,8 +29,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".OptionsActivity">
-        </activity>
 
         <service android:name=".BackgroundMusic"></service>
 

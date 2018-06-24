@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity
 open class BaseAcitivty: AppCompatActivity() {
 
     private var backgroundMusic: BackgroundMusic? = null
-    private val scon: ServiceConnection = object: ServiceConnection {
+    private val serviceConnection: ServiceConnection = object: ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             backgroundMusic = (service as BackgroundMusic.ServiceBinder).getService()
         }
@@ -24,7 +24,7 @@ open class BaseAcitivty: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindService(Intent(this, BackgroundMusic::class.java), scon, Context.BIND_AUTO_CREATE)
+        bindService(Intent(this, BackgroundMusic::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
     override fun onResume() {
@@ -34,13 +34,13 @@ open class BaseAcitivty: AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        backgroundMusic!!.pauseMusic()
+        backgroundMusic?.pauseMusic()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         stopService(Intent(this, BackgroundMusic::class.java))
-        unbindService(scon)
+        unbindService(serviceConnection)
     }
 
 }
