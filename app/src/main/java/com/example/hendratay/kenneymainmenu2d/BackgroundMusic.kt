@@ -1,6 +1,7 @@
 package com.example.hendratay.kenneymainmenu2d
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Binder
@@ -25,6 +26,7 @@ class BackgroundMusic: Service() {
     override fun onCreate() {
         super.onCreate()
         mediaPlayer = MediaPlayer.create(this, R.raw.clearday)
+        readSharedPreferences()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -38,9 +40,20 @@ class BackgroundMusic: Service() {
         mediaPlayer.release()
     }
 
+    fun setMusicVolume(volume: Float) {
+        mediaPlayer.setVolume(volume, volume)
+    }
+
     fun pauseMusic() {
         mediaPlayer.pause()
         length = mediaPlayer.currentPosition
     }
+
+    private fun readSharedPreferences() {
+        val sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE) ?: return
+        val musicVolume = sharedPreferences.getInt(getString(R.string.saved_music_volume), 50)
+        setMusicVolume(musicVolume / 100f)
+    }
+
 
 }
