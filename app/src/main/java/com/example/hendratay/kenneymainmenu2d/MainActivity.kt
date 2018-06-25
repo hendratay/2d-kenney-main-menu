@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var soundPool: SoundPool
     private var clickSound: Int? = null
+    private var soundEffectVolume = 0
 
     companion object {
         const val RC_SIGN_IN: Int = 123
@@ -46,19 +48,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         bindService(Intent(this, BackgroundMusic::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
 
+        setupSinglePlayerButton()
         setupMultiPlayerButton()
         setupOptionsButton()
+        setupInviteButton()
+        setupAchievementButton()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             soundPool = SoundPool.Builder().setMaxStreams(1).build()
-            clickSound = soundPool.load(this, R.raw.click1, 1)
+        } else {
+            soundPool = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
         }
-    }
-
-    fun playSound() {
-        if(clickSound != null) {
-            soundPool.play(clickSound!!, 1f, 1f, 0, 0, 1f)
-        }
+        clickSound = soundPool.load(this, R.raw.click1, 1)
+        readSoundEffectPref()
     }
 
     override fun onResume() {
@@ -77,8 +79,30 @@ class MainActivity : AppCompatActivity() {
         unbindService(serviceConnection)
     }
 
+    private fun readSoundEffectPref() {
+        val sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE) ?: return
+        soundEffectVolume = sharedPreferences.getInt(getString(R.string.saved_sound_effect), 50)
+    }
+
+    private fun playSound() {
+        if(clickSound != null) {
+            soundPool.play(clickSound!!, soundEffectVolume / 100f , soundEffectVolume / 100f, 0, 0, 1f)
+        }
+    }
+
+    fun setSoundEffectVolume(volume: Int) {
+        soundEffectVolume = volume
+    }
+
+    private fun setupSinglePlayerButton() {
+        single_player.setOnClickListener {
+            playSound()
+        }
+    }
+
     private fun setupMultiPlayerButton() {
         multiplayer.setOnClickListener {
+            playSound()
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -97,6 +121,18 @@ class MainActivity : AppCompatActivity() {
         options.setOnClickListener {
             playSound()
             OptionsDialog().show(supportFragmentManager, "OptionsDialog")
+        }
+    }
+
+    private fun setupInviteButton() {
+        invite.setOnClickListener {
+            playSound()
+        }
+    }
+
+    private fun setupAchievementButton() {
+        achievement.setOnClickListener {
+            playSound()
         }
     }
 

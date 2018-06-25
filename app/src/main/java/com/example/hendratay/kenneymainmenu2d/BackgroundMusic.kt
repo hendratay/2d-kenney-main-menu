@@ -26,7 +26,7 @@ class BackgroundMusic: Service() {
     override fun onCreate() {
         super.onCreate()
         mediaPlayer = MediaPlayer.create(this, R.raw.clearday)
-        readSharedPreferences()
+        readBackgroundMusicPref()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -49,7 +49,7 @@ class BackgroundMusic: Service() {
         length = mediaPlayer.currentPosition
     }
 
-    private fun readSharedPreferences() {
+    private fun readBackgroundMusicPref() {
         val sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE) ?: return
         val musicVolume = sharedPreferences.getInt(getString(R.string.saved_music_volume), 50)
         setMusicVolume(musicVolume / 100f)

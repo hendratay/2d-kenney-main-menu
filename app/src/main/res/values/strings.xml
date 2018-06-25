@@ -9,5 +9,6 @@
     <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>
     <string name="saved_music_volume">SavedMusicVolume</string>
     <string name="preference_file_key">com.example.hendratay.kenneymainmenu2d.options</string>
+    <string name="saved_sound_effect">SavedSoundEffect</string>
 
 </resources>
