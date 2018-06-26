@@ -1,5 +1,6 @@
 package com.example.hendratay.kenneymainmenu2d
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -11,11 +12,14 @@ import android.os.Bundle
 import android.os.IBinder
 import android.support.v7.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var soundPool: SoundPool
+    private var user: FirebaseUser? = null
     private var clickSound: Int? = null
     private var soundEffectVolume = 0
 
@@ -27,8 +31,8 @@ class MainActivity : AppCompatActivity() {
             AuthUI.IdpConfig.EmailBuilder().build(),
             AuthUI.IdpConfig.PhoneBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build(),
-            AuthUI.IdpConfig.FacebookBuilder().build(),
-            AuthUI.IdpConfig.TwitterBuilder().build()
+            AuthUI.IdpConfig.FacebookBuilder().build()
+//            AuthUI.IdpConfig.TwitterBuilder().build()
     )
 
     var backgroundMusic: BackgroundMusic? = null
@@ -79,6 +83,16 @@ class MainActivity : AppCompatActivity() {
         unbindService(serviceConnection)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == RC_SIGN_IN) {
+            if(resultCode == Activity.RESULT_OK) {
+                user = FirebaseAuth.getInstance().currentUser
+                startActivity(Intent(this, DashBoardActivity::class.java).putExtra("USERNAME", user?.displayName))
+            }
+        }
+    }
+
     private fun readSoundEffectPref() {
         val sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE) ?: return
         soundEffectVolume = sharedPreferences.getInt(getString(R.string.saved_sound_effect), 50)
@@ -103,17 +117,22 @@ class MainActivity : AppCompatActivity() {
     private fun setupMultiPlayerButton() {
         multiplayer.setOnClickListener {
             playSound()
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .setLogo(R.drawable.zombie_duck)
-                            .setTheme(R.style.SignInTheme)
-                            .setTosUrl("https://github.com")
-                            .setPrivacyPolicyUrl("https://google.com")
-                            .build(),
-                    RC_SIGN_IN
-            )
+            user = FirebaseAuth.getInstance().currentUser
+            if(user != null) {
+                startActivity(Intent(this, DashBoardActivity::class.java).putExtra("USERNAME", user!!.displayName))
+            } else {
+                startActivityForResult(
+                        AuthUI.getInstance()
+                                .createSignInIntentBuilder()
+                                .setAvailableProviders(providers)
+                                .setLogo(R.drawable.zombie_duck)
+                                .setTheme(R.style.SignInTheme)
+                                .setTosUrl("https://github.com")
+                                .setPrivacyPolicyUrl("https://google.com")
+                                .build(),
+                        RC_SIGN_IN
+                )
+            }
         }
     }
 
@@ -127,6 +146,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupInviteButton() {
         invite.setOnClickListener {
             playSound()
+            val sendIntent = Intent().apply {
+                setAction(Intent.ACTION_SEND)
+                setType("text/plain")
+                putExtra(Intent.EXTRA_TEXT, "//Todo: use dynamic links")
+            }
+            startActivity(sendIntent)
         }
     }
 
